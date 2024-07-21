@@ -53,7 +53,6 @@ class ResultsViewController: UIViewController {
     }
 
     @objc func closeButtonTapped() {
-        // Navigate back to HomeViewController
         if let homeVC = navigationController?.viewControllers.first(where: { $0 is HomeViewController }) {
             navigationController?.popToViewController(homeVC, animated: true)
         } else {

@@ -2,7 +2,7 @@
 //  QuizUpdateViewController.swift
 //  QuizApp
 //
-//  Created by Pratham Jadhav on 2024-07-17.
+//  Created by Pratham Jadhav on 2024-07-16.
 //
 
 import UIKit
@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 class QuizUpdateViewController: UIViewController {
     
-    var quiz: Quiz? // Variable to receive the selected quiz
+    var quiz: Quiz?
     var currentQuestionIndex = 0
     
     @IBOutlet weak var questionNumLabel: UILabel!
@@ -36,7 +36,7 @@ class QuizUpdateViewController: UIViewController {
             print("Error: Quiz ID is empty")
             return
         }
-        displayCurrentQuestion() // Display the first question
+        displayCurrentQuestion()
     }
     
     func displayCurrentQuestion() {
@@ -51,7 +51,6 @@ class QuizUpdateViewController: UIViewController {
         ansOption4.text = question.options[3]
         correctAns.text = question.correctAnswer
         
-        // Update button visibility
         prevBtn.isHidden = currentQuestionIndex == 0
         nextBtn.isHidden = currentQuestionIndex == quiz.questions.count - 1
     }
@@ -62,7 +61,7 @@ class QuizUpdateViewController: UIViewController {
                 return
             }
             
-            // Check if any of the fields are empty
+            // Validations
             if let updatedQuestionText = questionUpdate.text, !updatedQuestionText.isEmpty,
                let option1 = ansOption1.text, !option1.isEmpty,
                let option2 = ansOption2.text, !option2.isEmpty,
@@ -70,23 +69,19 @@ class QuizUpdateViewController: UIViewController {
                let option4 = ansOption4.text, !option4.isEmpty,
                let updatedCorrectAnswer = correctAns.text, !updatedCorrectAnswer.isEmpty {
                 
-                // All fields are filled, proceed with updating the question
+
                 let updatedOptions = [option1, option2, option3, option4]
-                
-                // Update the current question
+
                 quiz.questions[currentQuestionIndex].questionstext = updatedQuestionText
                 quiz.questions[currentQuestionIndex].options = updatedOptions
                 quiz.questions[currentQuestionIndex].correctAnswer = updatedCorrectAnswer
                 
-                // Log updated question details
                 print("Updated Question \(currentQuestionIndex + 1): \(updatedQuestionText)")
                 print("Options: \(updatedOptions)")
                 print("Correct Answer: \(updatedCorrectAnswer)")
                 
-                // Save updated quiz to Firestore
                 saveUpdatedQuiz(quiz: quiz)
             } else {
-                // One or more fields are empty, show an alert
                 let alert = UIAlertController(title: "Error", message: "Please fill all the fields before updating the question.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 present(alert, animated: true, completion: nil)

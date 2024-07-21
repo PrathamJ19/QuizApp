@@ -16,8 +16,6 @@ class StaffLoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Observe back button action
         self.navigationItem.hidesBackButton = true
         let newBackButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = newBackButton

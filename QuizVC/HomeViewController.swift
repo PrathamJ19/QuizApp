@@ -2,7 +2,7 @@
 //  HomeViewController.swift
 //  QuizApp
 //
-//  Created by Pratham Jadhav on 2024-07-14.
+//  Created by Pratham Jadhav on 2024-07-13.
 //
 
 import UIKit
@@ -68,7 +68,7 @@ class HomeViewController: UIViewController, UISearchBarDelegate {
         }
     }
     
-    // Add custom logout button with alert
+    // Custom Button
         func addCustomLogoutButton() {
             self.navigationItem.setHidesBackButton(true, animated: true)
             let closeButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutButtonTapped))
@@ -132,14 +132,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedQuiz = filteredData[indexPath.row]
-        performSegue(withIdentifier: "goToQuiz", sender: selectedQuiz.id) // Pass the quiz ID
+        performSegue(withIdentifier: "goToQuiz", sender: selectedQuiz.id)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToQuiz" {
             if let userAnswerVC = segue.destination as? UserAnswerViewController,
                let quizId = sender as? String {
-                userAnswerVC.quizId = quizId // Pass the quiz ID to UserAnswerViewController
+                userAnswerVC.quizId = quizId
             }
         }
     }

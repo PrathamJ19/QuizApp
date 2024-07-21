@@ -28,13 +28,10 @@ class SignUpViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         coursePicker.dataSource = self
         selectedCourse = courses[0]
         
-        // Observe back button action
-        self.navigationItem.hidesBackButton = true
+        self.navigationItem.hidesBackButton = true //Hide Default Navigation Button
         let newBackButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = newBackButton
     }
-    
-    // MARK: - UIPickerViewDataSource methods
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -124,7 +121,7 @@ class SignUpViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         if password == confirmPassword {
             Auth.auth().createUser(withEmail: email, password: password) { firebaseResult, error in
                 if let error = error {
-                    self.handleFirebaseAuthError(error) // Use the error handler method
+                    self.handleFirebaseAuthError(error)
                     return
                 }
                 

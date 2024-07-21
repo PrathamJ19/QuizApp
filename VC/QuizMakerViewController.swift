@@ -46,7 +46,6 @@ class QuizMakerViewController: UIViewController {
         let questionId = UUID().uuidString
         let question = Question(id: questionId, questionstext: questionText, options: [option1, option2, option3, option4], correctAnswer: correctAnswer)
         
-        // Add question to the quiz
         quiz?.questions.append(question)
         
         if let questions = quiz?.questions {
@@ -106,8 +105,8 @@ class QuizMakerViewController: UIViewController {
             ]}
         ]
         
-        print("Quiz Data: \(quizData)") // Debugging
-
+        print("Quiz Data: \(quizData)")
+        
         db.collection("quizzes").document(quiz.id).setData(quizData) { error in
             if let error = error {
                 print("Error updating quiz: \(error)")
@@ -118,7 +117,6 @@ class QuizMakerViewController: UIViewController {
     }
     
     //Button Condition
-    
     func setupNavigationBar() {
         self.navigationItem.setHidesBackButton(true, animated: true)
             if comingFromVC == "QuizUpdateViewController" {
@@ -128,8 +126,7 @@ class QuizMakerViewController: UIViewController {
             }
         }
     
-    //Buttons
-    
+    //Custom Buttons
     func addCustomBackButton() {
         let doneButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backButtonTapped))
         self.navigationItem.rightBarButtonItem = doneButton
@@ -166,7 +163,6 @@ class QuizMakerViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goBackToNewQuiz" {
             if segue.destination is NewQuizViewController {
-                // Pass any necessary data to NewQuizViewController
             }
         }
     }

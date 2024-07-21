@@ -40,11 +40,11 @@ class NewQuizViewController: UIViewController, UISearchBarDelegate {
             guard let documents = snapshot?.documents else { return }
             self.quizzes = documents.compactMap { document in
                 var quizData = document.data()
-                quizData["id"] = document.documentID // Ensure the ID is included
+                quizData["id"] = document.documentID
                 return self.parseQuizData(data: quizData)
             }
             self.filteredData = self.quizzes
-            self.updateTable.reloadData() // Reload the table view
+            self.updateTable.reloadData()
         }
     }
     
@@ -80,11 +80,12 @@ class NewQuizViewController: UIViewController, UISearchBarDelegate {
         
         newQuiz = Quiz(id: quizId, title: title, batch: batch, questions: [])
         
+        //Initial Empty Array
         db.collection("quizzes").document(quizId).setData([
             "id": quizId,
             "title": title,
             "batch": batch,
-            "questions": [] // Initialize with an empty array
+            "questions": []
         ]) { error in
             if let error = error {
                 print("Error saving quiz: \(error)")
@@ -103,7 +104,7 @@ class NewQuizViewController: UIViewController, UISearchBarDelegate {
         } else if segue.identifier == "goToQuizUpdate" {
             if let quizUpdateVC = segue.destination as? QuizUpdateViewController,
                let selectedIndex = sender as? IndexPath {
-                quizUpdateVC.quiz = quizzes[selectedIndex.row] // Pass the selected quiz
+                quizUpdateVC.quiz = quizzes[selectedIndex.row]
             }
         }
     }
@@ -162,11 +163,9 @@ class NewQuizViewController: UIViewController, UISearchBarDelegate {
         }
 }
 
-// MARK: - UITableViewDataSource
-
 extension NewQuizViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredData.count // Return the number of quizzes
+        return filteredData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -177,11 +176,9 @@ extension NewQuizViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableViewDelegate
-
 extension NewQuizViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "goToQuizUpdate", sender: indexPath) // Perform segue to QuizUpdateVC
+        performSegue(withIdentifier: "goToQuizUpdate", sender: indexPath)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -193,11 +190,8 @@ extension NewQuizViewController: UITableViewDelegate {
                 if let error = error {
                     print("Error deleting quiz: \(error)")
                 } else {
-                    // Remove the quiz from the local data source
                     self.filteredData.remove(at: indexPath.row)
                     self.quizzes.removeAll { $0.id == quizToDelete.id }
-                    
-                    // Update the table view
                     tableView.deleteRows(at: [indexPath], with: .fade)
                 }
             }

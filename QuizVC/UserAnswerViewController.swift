@@ -52,10 +52,11 @@ class UserAnswerViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    //Radio Button
     func setupRadioButtonAlignment() {
             for btn in radioBtns {
                 var config = UIButton.Configuration.filled()
-                config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0) // Adjust left padding as needed
+                config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
                 config.imagePadding = 10
                 btn.configuration = config
                 btn.configurationUpdateHandler = { button in
@@ -79,12 +80,12 @@ class UserAnswerViewController: UIViewController {
             }
             guard let data = document?.data() else { return }
             self.quiz = self.parseQuizData(data: data)
-            self.initializeSelectedAnswers() // Initialize after fetching
+            self.initializeSelectedAnswers()
             self.setupUI()
         }
     }
 
-    // Parse the quiz data
+    // Parse quiz data
     func parseQuizData(data: [String: Any]) -> Quiz? {
         let id = data["id"] as? String ?? ""
         let title = data["title"] as? String ?? ""
@@ -104,7 +105,7 @@ class UserAnswerViewController: UIViewController {
         return Quiz(id: id, title: title, batch: "", questions: questions)
     }
 
-    // Setup UI elements
+    // Updae UI elements
     func setupUI() {
         guard let quiz = quiz else { return }
         quizTitle.text = quiz.title
@@ -123,13 +124,11 @@ class UserAnswerViewController: UIViewController {
         let question = quiz.questions[currentQuestionIndex]
         questionsText.text = question.questionstext
 
-        // Set titles for each answer button
         for (index, btn) in radioBtns.enumerated() {
             btn.setTitle(question.options[index], for: .normal)
             btn.setImage(UIImage(named: "btn_OFF"), for: .normal) // Reset to OFF state
         }
-
-        // Load previously selected answer
+        
         if currentQuestionIndex < selectedAnswers.count,
            let selectedAnswer = selectedAnswers[currentQuestionIndex] {
             for btn in radioBtns {
@@ -139,10 +138,10 @@ class UserAnswerViewController: UIViewController {
             }
         }
 
-        // Hide previous button if it's the first question
+        // Hide 'previous button' on the first question
         prevBtn.isHidden = currentQuestionIndex == 0
 
-        // Hide next button and show submit button if it's the last question
+        // Hide next button and show submit button on the last question
         if currentQuestionIndex == (quiz.questions.count) - 1 {
             nextBtn.isHidden = true
             submitBtn.isHidden = false
@@ -158,7 +157,7 @@ class UserAnswerViewController: UIViewController {
         progressBar.progress = progress
     }
 
-    // Calculate score
+    // Score Calculation
     func calculateScore() -> Int {
         guard let questions = quiz?.questions else { return 0 }
         
